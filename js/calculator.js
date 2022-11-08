@@ -7,6 +7,8 @@ var comaPresent = false;
 var numberButtons = document.getElementsByClassName("number");
 var operationButtons = document.getElementsByClassName("operation");
 var equalButton = document.getElementsByClassName("equals")[0];
+var eraseButton = document.getElementsByClassName("erase")[0];
+var closeButton = document.getElementsByClassName("close")[0];
 
 //Datos guardados
 var valueSaved;
@@ -16,6 +18,7 @@ var zeroDivision = false;
 
 //Operaciones
 var operations = new Operations();
+
 
 for(var i = 0; i < numberButtons.length; i++){
     numberButtons[i].addEventListener("click", function(){
@@ -35,6 +38,7 @@ for(var i = 0; i < numberButtons.length; i++){
 
 for(var i = 0; i < operationButtons.length; i++){
     operationButtons[i].addEventListener("click", function(){
+        makeOperation();
         if(!isNaN(parseFloat(resultScreen.innerText))) valueSaved = parseFloat(resultScreen.innerText);
         resultScreen.innerText = this.innerText;
         resultsEmpty = true;
@@ -44,6 +48,24 @@ for(var i = 0; i < operationButtons.length; i++){
 }
 
 equalButton.addEventListener("click", function(){
+    makeOperation();
+})
+
+eraseButton.addEventListener("click", function(){
+    valueSaved = 0;
+    lastValue = 0;
+    operation = "";
+    zeroDivision = false;
+    resultScreen.innerText = "0";
+    resultsEmpty = true;
+    comaPresent = false;
+})
+
+closeButton.addEventListener("click", function(){
+    window.close();
+})
+
+function makeOperation(){
     if(!operation) return;
 
     if(operation.length == 1){
@@ -70,4 +92,4 @@ equalButton.addEventListener("click", function(){
     }
     resultScreen.innerHTML = valueSaved;
     operation += "=";
-})
+}

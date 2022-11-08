@@ -13,8 +13,8 @@ class Operations{
 
     dividir(primerValor, segundoValor){
         if(primerValor == 0 || segundoValor == 0){
-            return "No se puede dividir por 0";
+            return "No se puede dividir por mogolico";
         }
-        return primerValor / segundoValor;
+        return (primerValor / segundoValor);
     }
 }
