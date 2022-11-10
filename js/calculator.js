@@ -20,11 +20,17 @@ var zeroDivision = false;
 var operations = new Operations();
 
 
+//Evento para numeros
 for(var i = 0; i < numberButtons.length; i++){
     numberButtons[i].addEventListener("click", function(){
-        if(resultsEmpty || zeroDivision) {
+        if((resultsEmpty || zeroDivision || resultScreen.innerHTML == "0")) {
             resultScreen.innerText = "";
             zeroDivision = false;
+        }
+        if(operation && operation.length > 1){
+            resultScreen.innerText = "";
+            zeroDivision = false;
+            operation = "";
         }
         if(this.classList.contains("coma")){
             if(comaPresent) return;
@@ -36,10 +42,13 @@ for(var i = 0; i < numberButtons.length; i++){
     })
 }
 
+//Evento para operaciones
 for(var i = 0; i < operationButtons.length; i++){
     operationButtons[i].addEventListener("click", function(){
         makeOperation();
-        if(!isNaN(parseFloat(resultScreen.innerText))) valueSaved = parseFloat(resultScreen.innerText);
+        var textInScreen = parseFloat(resultScreen.innerText);
+        if(!isNaN(textInScreen)) valueSaved = textInScreen;
+
         resultScreen.innerText = this.innerText;
         resultsEmpty = true;
         comaPresent = false;
@@ -47,20 +56,23 @@ for(var i = 0; i < operationButtons.length; i++){
     })
 }
 
+//Evento para boton igual
 equalButton.addEventListener("click", function(){
+    var textInScreen = parseFloat(resultScreen.innerText);
+    if(isNaN(textInScreen)) {
+        resultScreen.innerHTML = valueSaved;
+        return;
+    }
+
     makeOperation();
 })
 
+//Evento para boton borrar
 eraseButton.addEventListener("click", function(){
-    valueSaved = 0;
-    lastValue = 0;
-    operation = "";
-    zeroDivision = false;
-    resultScreen.innerText = "0";
-    resultsEmpty = true;
-    comaPresent = false;
+    reset();
 })
 
+//Evento para boton cerrar
 closeButton.addEventListener("click", function(){
     window.close();
 })
@@ -93,3 +105,14 @@ function makeOperation(){
     resultScreen.innerHTML = valueSaved;
     operation += "=";
 }
+
+function reset(){
+    valueSaved = 0;
+    lastValue = 0;
+    operation = "";
+    zeroDivision = false;
+    resultScreen.innerText = "0";
+    resultsEmpty = true;
+    comaPresent = false;
+}
+
